@@ -534,3 +534,14 @@ body {
 /* Single product */
 
 /* Blog page */
+.about {
+    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-20%);
+}
+
+.about p {
+    left: 50%;
+    transform: translateX(-30%);
+}

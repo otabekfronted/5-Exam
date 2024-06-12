@@ -1,3 +1,7 @@
+const queryString = window.location.search;
+const query = new URLSearchParams(queryString);
+const id = query.get("productID");
+console.log(id);
 const temp = document.querySelector("template");
 const ul = document.querySelector(".pro-container");
 const overlay = document.querySelector(".overlay");
@@ -11,32 +15,24 @@ function loader(state) {
         }, 5000);
     }
 }
+const h2 = document.querySelector(".d");
+const h4 = document.querySelector("h4");
+const a = document.querySelector("a");
+const img = document.querySelector("#img");
+const span = document.querySelector("span");
+const page = document.querySelector("#page");
 
 const API = "https://dummyjson.com/products";
 const updateUI = (products) => {
-    ul.innerHTML = "";
-    products.forEach((product) => {
-        console.log(products);
-        const clone = temp.content.cloneNode(true);
-
-        const h5 = clone.querySelector("h5");
-        const h4 = clone.querySelector("h4");
-        const a = clone.querySelector("a");
-        const img = clone.querySelector("#img");
-        const span = clone.querySelector("span");
-        const page = clone.querySelector("#page");
-
-        page.href = `./pages/about.html?productID=${product.id}`;
-        h5.textContent = product.title;
-        h4.textContent = product.price + "$";
-        img.src = product.thumbnail;
-        span.textContent = product.brand;
-        // ul.style.display = "flex";
-        ul.appendChild(clone);
-    });
+    // page.href = `./pages/about.html?productID=${products.id}`;
+    h2.textContent = `${products.title}`;
+    h4.textContent = `${products.price + "$"}`;
+    span.textContent = `${products.brand}`;
+    img.src = `${products.thumbnail}`;
+    // ul.appendChild(clone);
 };
 const getData = async (url, method = "GET", data) => {
-    overlay.classList.remove("hidden");
+    // overlay.classList.remove("hidden");
     const request = await fetch(url, {
         method,
         headers: {
@@ -45,14 +41,14 @@ const getData = async (url, method = "GET", data) => {
         body: data ? JSON.stringify(data) : null,
     });
     const response = await request.json();
-    overlay.classList.add("hidden");
+    // overlay.classList.add("hidden");
 
     return response;
 };
 
-getData(API)
-    .then((data) => {
-        updateUI(data.products);
+getData(API + `/${id}`)
+    .then((products) => {
+        updateUI(products);
     })
     .catch((error) => {
         console.log(error);
